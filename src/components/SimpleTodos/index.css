@@ -1,50 +1,192 @@
-/* Write your CSS here */
+/* SimpleTodos Component Styles */
 .container {
-    background-color: #ffc2a0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  background: linear-gradient(135deg, #ffc2a0 0%, #ff8542 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.inner-container {
+  background-color: white;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 95%;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1rem;
+  transition: all 0.3s ease;
+}
+
+.heading {
+  font-size: 1.8rem;
+  font-family: 'Roboto', sans-serif;
+  color: #ff8542;
+  text-align: center;
+  font-weight: 700;
+  margin: 0.8rem 0 1.2rem;
+  letter-spacing: -0.5px;
+}
+
+.add-todo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 1.5rem;
+  gap: 0.8rem;
+}
+
+.add-todo input {
+  padding: 0.8rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.add-todo input:focus {
+  border-color: #ff8542;
+}
+
+.add-todo button {
+  padding: 0.8rem 1.5rem;
+  background-color: #ff8542;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+}
+
+.todos-list {
+  padding-left: 0;
+  width: 100%;
+  max-width: 600px;
+  margin: 0;
+  list-style: none;
+}
+
+/* Empty state */
+.empty-list {
+  text-align: center;
+  color: #757575;
+  margin: 2rem 0;
+  font-size: 1.1rem;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 479px) {
+  .container {
+    padding: 0.5rem;
   }
   
   .inner-container {
-    background-color: white;
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 98%;
-    border-radius: 20px;
-  }
-  
-  @media screen and (min-width: 768px) {
-    .inner-container {
-      padding: 48px;
-      margin-top: 96px;
-      margin-bottom: 96px;
-    }
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 12px;
   }
   
   .heading {
-    font-size: 30px;
-    font-family: 'Roboto';
-    color: #ff8542;
-    text-align: center;
-    font-weight: 700;
-    margin-top: 12px;
-    margin-bottom: 16px;
+    font-size: 1.5rem;
+    margin: 0.5rem 0 1rem;
   }
   
-  @media screen and (min-width: 768px) {
-    .heading {
-      font-size: 48px;
-      margin-top: 32px;
-      margin-bottom: 48px;
-    }
+  .add-todo {
+    gap: 0.5rem;
   }
   
-  .todos-list {
-    padding-left: 0px;
+  .add-todo input {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
   }
   
+  .add-todo button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .inner-container {
+    padding: 2rem;
+  }
+  
+  .heading {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .inner-container {
+    padding: 3rem;
+    max-width: 90%;
+    margin: 2rem;
+  }
+  
+  .heading {
+    font-size: 2.5rem;
+    margin: 1rem 0 2rem;
+  }
+  
+  .add-todo {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .add-todo input {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .add-todo input[type="number"] {
+    max-width: 100px;
+  }
+  
+  .add-todo button {
+    width: auto;
+    min-width: 120px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .inner-container {
+    max-width: 80%;
+    padding: 3.5rem;
+  }
+  
+  .heading {
+    font-size: 3rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .inner-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .add-todo input {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #f5f5f5;
+  }
+  
+  .heading {
+    color: #ff9d66;
+  }
+  
+  .empty-list {
+    color: #aaa;
+  }
+}

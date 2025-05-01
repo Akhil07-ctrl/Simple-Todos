@@ -28,22 +28,24 @@ class SimpleTodos extends Component {
 
   handleAddTodo = () => {
     let {newTodoTitle, newTodoCount} = this.state
-
-    // Check if the title ends with a number
-    const numberMatch = newTodoTitle.match(/(\d+)$/)
-    if (numberMatch) {
-      newTodoCount = parseInt(numberMatch[1], 10)
-      newTodoTitle = newTodoTitle
-        .substring(0, newTodoTitle.length - numberMatch[1].length)
-        .trim()
+    
+    // Check if the input contains a number at the end
+    const match = newTodoTitle.match(/^(.*?)(\d+)$/)
+    let title = newTodoTitle
+    let count = newTodoCount
+    
+    if (match) {
+      // If there's a number at the end of the input, use it as the count
+      title = match[1].trim()
+      count = parseInt(match[2], 10)
     }
-
-    const newTodos = Array.from({length: newTodoCount}, (_, i) => ({
+    
+    const newTodos = Array.from({length: count}, (_, i) => ({
       id: Date.now() + i,
-      title: newTodoTitle,
+      title: title,
       completed: false,
     }))
-
+    
     this.setState(prevState => ({
       todosList: [...prevState.todosList, ...newTodos],
       newTodoTitle: '',
@@ -77,33 +79,46 @@ class SimpleTodos extends Component {
           <h1 className="heading">Simple Todos</h1>
           <div className="add-todo">
             <input
+              min="1"
+              max="10"
               type="text"
               name="newTodoTitle"
               value={newTodoTitle}
               onChange={this.handleChange}
               placeholder="Enter todo title"
+              aria-label="Todo title"
             />
             <input
               type="number"
               name="newTodoCount"
               value={newTodoCount}
               onChange={this.handleChange}
-              placeholder="Enter number of todos"
+              placeholder="Count"
+              aria-label="Number of todos to add"
               min="1"
             />
-            <button onClick={this.handleAddTodo} type="button">
+            <button 
+              onClick={this.handleAddTodo} 
+              type="button"
+              disabled={!newTodoTitle.trim()}
+              aria-label="Add todo"
+            >
               Add
             </button>
           </div>
-          <ul className="todos-list">
-            {todosList.map(todo => (
-              <TodoItem
-                key={todo.id}
-                todoDetails={todo}
-                deleteTodo={this.deleteTodo}
-                toggleComplete={this.toggleComplete}
-              />
-            ))}
+          <ul className="todos-list" aria-label="Todo list">
+            {todosList.length > 0 ? (
+              todosList.map(todo => (
+                <TodoItem
+                  key={todo.id}
+                  todoDetails={todo}
+                  deleteTodo={this.deleteTodo}
+                  toggleComplete={this.toggleComplete}
+                />
+              ))
+            ) : (
+              <li className="empty-list">No todos yet. Add one above!</li>
+            )}
           </ul>
         </div>
       </div>

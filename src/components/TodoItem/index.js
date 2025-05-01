@@ -38,8 +38,14 @@ class TodoItem extends Component {
               type="text"
               value={updatedTitle}
               onChange={this.handleChange}
+              aria-label="Edit todo title"
+              autoFocus
             />
-            <button onClick={this.handleSave} type="button">
+            <button 
+              onClick={this.handleSave} 
+              type="button"
+              aria-label="Save changes"
+            >
               Save
             </button>
           </>
@@ -49,14 +55,27 @@ class TodoItem extends Component {
               type="checkbox"
               checked={todoDetails.completed}
               onChange={() => toggleComplete(todoDetails.id)}
+              aria-label={`Mark ${todoDetails.completed ? 'incomplete' : 'complete'}`}
             />
-            <p className="title">{todoDetails.title}</p>
-            <button onClick={this.handleEdit} type="button">
-              Edit
-            </button>
-            <button onClick={() => deleteTodo(todoDetails.id)} type="button">
-              Delete
-            </button>
+            <p className="title" data-testid="todo-title">
+              {todoDetails.title}
+            </p>
+            <div className="button-group">
+              <button 
+                onClick={this.handleEdit} 
+                type="button"
+                aria-label="Edit todo"
+              >
+                Edit
+              </button>
+              <button 
+                onClick={() => deleteTodo(todoDetails.id)} 
+                type="button"
+                aria-label="Delete todo"
+              >
+                Delete
+              </button>
+            </div>
           </>
         )}
       </li>

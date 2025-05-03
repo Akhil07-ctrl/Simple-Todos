@@ -24,10 +24,32 @@ class SimpleTodos extends Component {
     ],
     newTodoTitle: '',
     newTodoCount: 1,
+    errorMessage: '',
+  }
+  
+  componentDidMount() {
+    // Load todos from localStorage when component mounts
+    const savedTodos = localStorage.getItem('todos')
+    if (savedTodos) {
+      this.setState({ todosList: JSON.parse(savedTodos) })
+    }
+  }
+  
+  // Save todos to localStorage whenever state updates
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.todosList !== this.state.todosList) {
+      localStorage.setItem('todos', JSON.stringify(this.state.todosList))
+    }
   }
 
   handleAddTodo = () => {
     let {newTodoTitle, newTodoCount} = this.state
+    
+    // Check if the input is empty
+    if (!newTodoTitle.trim()) {
+      this.setState({ errorMessage: 'Please enter a todo title' })
+      return
+    }
     
     // Check if the input contains a number at the end
     const match = newTodoTitle.match(/^(.*?)(\d+)$/)
@@ -50,11 +72,20 @@ class SimpleTodos extends Component {
       todosList: [...prevState.todosList, ...newTodos],
       newTodoTitle: '',
       newTodoCount: 1,
+      errorMessage: '',
     }))
   }
 
   handleChange = e => {
-    this.setState({[e.target.name]: e.target.value})
+    // Clear error message when user types in the input field
+    if (e.target.name === 'newTodoTitle' && this.state.errorMessage) {
+      this.setState({
+        [e.target.name]: e.target.value,
+        errorMessage: '',
+      })
+    } else {
+      this.setState({[e.target.name]: e.target.value})
+    }
   }
 
   deleteTodo = id => {
@@ -70,9 +101,17 @@ class SimpleTodos extends Component {
     )
     this.setState({todosList: updatedTodoList})
   }
+  
+  updateTodoTitle = (id, newTitle) => {
+    const {todosList} = this.state
+    const updatedTodoList = todosList.map(todo =>
+      todo.id === id ? {...todo, title: newTitle} : todo,
+    )
+    this.setState({todosList: updatedTodoList})
+  }
 
   render() {
-    const {todosList, newTodoTitle, newTodoCount} = this.state
+    const {todosList, newTodoTitle, newTodoCount, errorMessage} = this.state
     return (
       <div className="container">
         <div className="inner-container">
@@ -100,12 +139,12 @@ class SimpleTodos extends Component {
             <button 
               onClick={this.handleAddTodo} 
               type="button"
-              disabled={!newTodoTitle.trim()}
               aria-label="Add todo"
             >
               Add
             </button>
           </div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <ul className="todos-list" aria-label="Todo list">
             {todosList.length > 0 ? (
               todosList.map(todo => (
@@ -114,6 +153,7 @@ class SimpleTodos extends Component {
                   todoDetails={todo}
                   deleteTodo={this.deleteTodo}
                   toggleComplete={this.toggleComplete}
+                  updateTodoTitle={this.updateTodoTitle}
                 />
               ))
             ) : (

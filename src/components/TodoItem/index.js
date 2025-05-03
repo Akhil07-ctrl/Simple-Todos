@@ -15,10 +15,13 @@ class TodoItem extends Component {
   }
 
   handleSave = () => {
-    // const {todoDetails} = this.props
-    // const {updatedTitle} = this.state
-    this.setState({editing: false})
-    // Call a function to save updated title (not implemented in this code)
+    const {todoDetails, updateTodoTitle} = this.props
+    const {updatedTitle} = this.state
+    
+    if (updatedTitle.trim()) {
+      updateTodoTitle(todoDetails.id, updatedTitle.trim())
+      this.setState({editing: false})
+    }
   }
 
   handleChange = e => {

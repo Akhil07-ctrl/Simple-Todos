@@ -65,6 +65,24 @@
   font-size: 1rem;
   font-weight: 600;
   width: 100%;
+  cursor: pointer;
+}
+
+.add-todo button:hover {
+  background-color: #e67438;
+}
+
+.error-message {
+  color: #e53935;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 1rem;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 0.5rem;
+  background-color: #ffebee;
+  border-radius: 4px;
+  border-left: 3px solid #e53935;
 }
 
 .todos-list {
@@ -188,5 +206,10 @@
   
   .empty-list {
     color: #aaa;
+  }
+  
+  .error-message {
+    background-color: rgba(229, 57, 53, 0.15);
+    color: #ff6b6b;
   }
 }
